@@ -3,6 +3,9 @@ package com.humberto.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +17,10 @@ import com.humberto.repository.UserRepository;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
-
-	// Implementing Constructor based DI
 	private UserRepository repository;
+
+	@PersistenceContext
+	EntityManager entityManager;
 
 	public UserServiceImpl() {
 
@@ -39,6 +43,21 @@ public class UserServiceImpl implements UserService {
 	public User getUserById(Long id) {
 		User user = repository.findById(id).get();
 		return user;
+	}
+
+	@Override
+	public User login(String userName, String password) {
+
+		if (!userName.isEmpty() && !password.isEmpty()) {
+			Query query = entityManager.createNativeQuery(
+					"SELECT * FROM user " + "WHERE userName = '" + userName + "' AND password = '" + password + "'",
+					User.class);
+
+			return (User) query.getSingleResult();
+		} else {
+			User user = new User();
+			return user;
+		}
 	}
 
 	@Override

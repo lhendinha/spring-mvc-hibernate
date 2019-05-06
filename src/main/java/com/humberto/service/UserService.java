@@ -10,8 +10,9 @@ public interface UserService {
 
 	public User getUserById(Long id);
 
+	public User login(String userName, String password);
+
 	public boolean saveUser(User user);
 
 	public boolean deleteUserById(Long id);
-
 }

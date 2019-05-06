@@ -44,13 +44,13 @@ public class UserController {
 		ModelAndView mv = new ModelAndView();
 		List<User> userList = userService.getAllUsers();
 		mv.addObject("userList", userList);
-		mv.setViewName("allUsers");
+		mv.setViewName("/user/allUsers");
 		return mv;
 	}
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.GET)
 	public ModelAndView displayNewUserForm() {
-		ModelAndView mv = new ModelAndView("addUser");
+		ModelAndView mv = new ModelAndView("/user/addUser");
 		mv.addObject("headerMessage", "Add User Details");
 		mv.addObject("user", new User());
 		return mv;
